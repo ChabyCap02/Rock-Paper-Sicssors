@@ -1,19 +1,46 @@
-// Elementos PJ
+
+//--- Elementos Start Game
+const opcionGame = document.querySelector(".container-start-buttons");
+const containerGame = document.querySelector(".container-game");
+
+const opcionGamePlayer = opcionGame.childNodes[1];
+const opcionGameTwoPlayers = opcionGame.childNodes[3];
+let gameModeTwoPlayers = false;
+
+opcionGamePlayer.addEventListener("click", ()=>{
+    containerGame.style.visibility = "visible";
+    document.querySelector(".container-start").style.visibility = "hidden";
+    gameModeTwoPlayers = false;
+});
+opcionGameTwoPlayers.addEventListener('click', ()=>{
+    containerGame.style.visibility = "visible";
+    document.querySelector(".container-start").style.visibility = "hidden";
+    gameModeTwoPlayers = true;
+    if(gameModeTwoPlayers){
+        const hola = document.querySelector('.container-opcion-bot .card-element').classList.toggle('diseableM')
+        console.log(hola)
+    }
+});
+//Funcion para habilitar el Pj2
+
+
+//--- Elementos PJ
 const containerRespuestaPj = document.querySelector(".opcion-pj");
-const containerPj = document.querySelectorAll(".container-opcion-j1");
+const containerPj = document.querySelector(".container-opcion-j1");
 
-const opcion1 = containerPj.node;
-
-console.log(containerPj);
-
-// Elementos Bot
+const opcionsPj = containerPj.childNodes;
 
 
-// Boton Jugar
+
+
+
+
+//--- Elementos Bot
+const Bot = false
+
+
+//--- Boton Jugar
 const botonGame = document.querySelector(".boton-jugar");
 
-const jugar = () =>{
-    console.log("hola");
-};
 
-botonGame.addEventListener('click', jugar());
+// botonGame.addEventListener('click', jugar());
