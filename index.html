@@ -30,7 +30,7 @@
 			
 			<div class="container-game mt-3">
 
-				<!-- Container Jugador 1 -->
+				<!-- Container Opciones Player 1 -->
 				<div class="container-opcion-j1 text-center">
 
 					<div class="card-element-1 card card-element p-3 mt-2">
@@ -59,15 +59,17 @@
 				<div class="container-pantalla">
 
 					
-
+					<!-- Container Botones Pantalla -->
 					<div class="container-return">
+						<span class="marcador-pj">0</span>
 						<button class="btn btn-danger"><i class="bi bi-arrow-left-circle"></i></button>
+						<span class="marcador-bot">0</span>
 					</div>
 
 					
-
-					<div>
-						<div class="opcion-pj  card p-3 mt-2 bg-danger" style="width: 10rem; height: 15em;">
+					<!-- Container Repuesta PJ -->
+					<div class="container bg-danger rounded-3 p-2">
+						<div class="opcion-pj  card p-3 bg-danger" style="width: 10rem; height: 15em;">
 							<img src="img/interrogacion.png" class="card-img-top" alt="...">
 							<div class="card-body">
 								  <h5 class="card-title">?</h5>
@@ -77,8 +79,10 @@
 					<div>
 						<h1>VS</h1>
 					</div>
-					<div>
-						<div class="opcion-bot card p-3 mt-2 bg-danger" style="width: 10rem; height: 15em;">
+
+					<!-- Container Respuesta Bot -->
+					<div class="container bg-danger rounded-3 p-2">
+						<div class="opcion-bot card p-3 bg-danger" style="width: 10rem; height: 15em; margin-right: -1;">
 							<img src="img/interrogacion.png" class="card-img-top" alt="...">
 							<div class="card-body">
 								  <h5 class="card-title">?</h5>
@@ -86,13 +90,21 @@
 						</div>
 					</div>
 
-					<div class="container-marker bg-success p-3 rounded-3">
-						Ganaste
+					<!-- Container Marcador -->
+					<div class="container-marker  p-3 rounded-3">
+						<div class="container-marker-won bg-success">
+							Won
+						</div>
+
+						<div class="container-marker-lost bg-success">
+							Lost
+						</div>
 					</div>
+					
 				</div>
 
 
-				<!-- Container 'Bot' -->
+				<!-- Container Opciones 'Bot' -->
 				<div class="container-opcion-bot">
 
 					<div class="diseableM card card-element p-3 mt-2" >
@@ -118,9 +130,15 @@
 				
 				</div>
 
+
+				<!-- Container Button Game Now -->
+
 				<div class="container-buttons mt-4 text-center">
+					<button class="boton-game-again btn btn-warning">GAME AGAIN</button>
 					<button class="boton-jugar btn btn-success">GAME NOW</button>
 				</div>
+
+				
 			</div>
 		</div>
 

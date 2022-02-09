@@ -1,15 +1,21 @@
+let gameWin = false
 
 //--- Elementos Start Game
+const containerButtons = document.querySelector('.container-buttons').childNodes;
+
 const opcionGame = document.querySelector(".container-start-buttons");
+
 const containerGame = document.querySelector(".container-game");
 const botonRegresar = document.querySelector('.container-return');
+const containerReturnMarkerPj = botonRegresar.childNodes[1];
+const containerReturnMarkerBot = botonRegresar.childNodes[5];
+
 
 const opcionGamePlayer = opcionGame.childNodes[1];
 const opcionGameTwoPlayers = opcionGame.childNodes[3];
 let gameModeTwoPlayers = false;
 
 let bot = false;
-
 
 const containerBot = document.querySelector('.container-opcion-bot').childNodes
 
@@ -19,11 +25,17 @@ opcionGamePlayer.addEventListener("click", ()=>{
     document.querySelector(".container-start").style.visibility = "hidden";
     gameModeTwoPlayers = false;
     botonRegresar.style.display = 'block';
+    gameWin = false
+    containerButtons[3].style.display = 'inline';
+
+
+    // Desactive Mode Two Players
     if(gameModeTwoPlayers == false){
         containerBot[1].classList.add('diseableM');
         containerBot[3].classList.add('diseableM');
         containerBot[5].classList.add('diseableM');
         bot = true;
+
     };
 });
 
@@ -49,12 +61,17 @@ botonRegresar.addEventListener('click', ()=>{
     botonRegresar.style.display = 'none';
     document.querySelector(".container-start").style.visibility = "visible";
 
+    containerMarkerChild[1].style.visibility = 'hidden';
+    containerMarkerChild[3].style.visibility = 'hidden';
+    containerButtons[1].style.display = 'none';
+    containerButtons[3].style.display = 'none';
+
 })
 
 //--- Elementos PJ
+const containerPj = document.querySelector(".container-opcion-j1");
 const containerRespuestaPj = document.querySelector(".opcion-pj");
 const containerRespuestaPjChilds = containerRespuestaPj.childNodes;
-const containerPj = document.querySelector(".container-opcion-j1");
 
 const opcionsPj = containerPj.childNodes;
 const opcionPj1 = opcionsPj[1];
@@ -72,7 +89,7 @@ opcionPj2.addEventListener('click',()=>{
     containerRespuestaPjChilds[1].src = "img/paper.png";
     containerRespuestaPjChilds[3].childNodes[1].textContent = "PAPER";
     eleccionPj = 2;
-
+    
 });
 opcionPj3.addEventListener('click',()=>{
     containerRespuestaPjChilds[1].src = "img/scissors.png";
@@ -84,15 +101,40 @@ opcionPj3.addEventListener('click',()=>{
 
 
 //--- Elementos Bot
+const containerMarker = document.querySelector(".container-marker");
+const containerMarkerChild = containerMarker.childNodes;
 
 const containerRespuestaBot = document.querySelector(".opcion-bot");
 const containerRespuestaBotChild = containerRespuestaBot.childNodes;
-let gameWin = false
+
+const buttonGameAgain = document.querySelector('.boton-game-again');
+buttonGameAgain.addEventListener('click',()=>{
+    gameWin = false;
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+
+    containerMarkerChild[1].style.visibility = 'hidden';
+    containerMarkerChild[3].style.visibility = 'hidden';
+
+    buttonGameAgain.style.display = 'none';
+
+    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
+    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
+
+    markerPj = 0;
+    markerBot = 0;
+});
+
+// Counts Markers
+let markerPj = 0;
+let markerBot = 0;
 
 const cargarBot = () =>{
-    num = Math.random()*(4-1)+1
-    total = Math.floor(num)
-    console.log(total)
+    num = Math.random()*(4-1)+1;
+    total = Math.floor(num);
+    console.log(total);
+
+    
     if(eleccionPj == 0){
         containerRespuestaBotChild[1].src = "img/interrogacion.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "?";
@@ -110,10 +152,43 @@ const cargarBot = () =>{
     
     if (eleccionPj == 1 && total == 3 || eleccionPj == 2 && total == 1 || eleccionPj == 3 && total == 2) {
         console.log("Ganaste");
-        document.querySelector(".container-marker").style.visibility = 'visible';
-        gameWin = true   
+        containerMarkerChild[1].style.visibility = 'visible';
+        containerMarkerChild[3].style.visibility = 'visible';
+        containerPj.style.select = 'none';
+
+        gameWin = true;
+        containerMarkerChild[1].style.order = '1';
+
+        buttonGameAgain.style.visibility = 'visible';
+       
+        containerReturnMarkerPj.innerHTML = markerPj++;
+
+    }else if (eleccionPj == 3 && total == 1 || eleccionPj == 1 && total == 2 || eleccionPj == 2 && total == 3) {
+        console.log("Perdiste");
+        containerMarkerChild[1].style.visibility = 'visible';
+        containerMarkerChild[3].style.visibility = 'visible';
+
+        containerMarkerChild[1].style.order = '2';
+        
+        gameWin = true;
+        containerPj.style.select = 'none'
+
+        buttonGameAgain.style.visibility = 'visible';
+
+        
+        containerReturnMarkerBot.textContent = markerBot++;
+
+    }else if(eleccionPj  == total ){
+        console.log('Es un empate')
     }
+
+    if(gameWin){
+        
+        buttonGameAgain.style.visibility = 'visible'
+    }
+
 }
+
 
 
 //--- Boton Jugar
