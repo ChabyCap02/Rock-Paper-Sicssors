@@ -26,16 +26,24 @@ opcionGamePlayer.addEventListener("click", ()=>{
     gameModeTwoPlayers = false;
     botonRegresar.style.display = 'block';
     gameWin = false
+
+    containerButtons[1].style.display = 'inline';
     containerButtons[3].style.display = 'inline';
 
+    //Sprites Defaul
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
 
+    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
+    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
     // Desactive Mode Two Players
     if(gameModeTwoPlayers == false){
         containerBot[1].classList.add('diseableM');
         containerBot[3].classList.add('diseableM');
         containerBot[5].classList.add('diseableM');
         bot = true;
-
+        document.querySelector('.container-opcion-bot').style.display = 'none';
+        
     };
 });
 
@@ -44,11 +52,18 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
     containerGame.style.visibility = "visible";
     document.querySelector(".container-start").style.visibility = "hidden";
     gameModeTwoPlayers = true;
+
+    //ContainerButtons 
+    containerButtons[1].style.display = 'inline';
+    containerButtons[3].style.display = 'inline';
+
     if(gameModeTwoPlayers){
         containerBot[1].classList.remove('diseableM');
         containerBot[3].classList.remove('diseableM');
         containerBot[5].classList.remove('diseableM');
         bot = false;
+
+        document.querySelector('.container-opcion-bot').style.display = 'block';
     }
     botonRegresar.style.display = 'block';
 });
@@ -107,6 +122,7 @@ const containerMarkerChild = containerMarker.childNodes;
 const containerRespuestaBot = document.querySelector(".opcion-bot");
 const containerRespuestaBotChild = containerRespuestaBot.childNodes;
 
+//Funcion Game Again
 const buttonGameAgain = document.querySelector('.boton-game-again');
 buttonGameAgain.addEventListener('click',()=>{
     gameWin = false;
@@ -116,13 +132,15 @@ buttonGameAgain.addEventListener('click',()=>{
     containerMarkerChild[1].style.visibility = 'hidden';
     containerMarkerChild[3].style.visibility = 'hidden';
 
-    buttonGameAgain.style.display = 'none';
+    
 
     containerRespuestaPjChilds[1].src = "img/interrogacion.png";
     containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
 
     markerPj = 0;
-    markerBot = 0;
+    containerReturnMarkerPj.innerHTML = markerPj;
+    containerReturnMarkerBot.innerHTML = markerPj;
+
 });
 
 // Counts Markers
@@ -133,7 +151,7 @@ const cargarBot = () =>{
     num = Math.random()*(4-1)+1;
     total = Math.floor(num);
     console.log(total);
-
+    
     
     if(eleccionPj == 0){
         containerRespuestaBotChild[1].src = "img/interrogacion.png";
@@ -158,40 +176,63 @@ const cargarBot = () =>{
 
         gameWin = true;
         containerMarkerChild[1].style.order = '1';
-
+        
         buttonGameAgain.style.visibility = 'visible';
-       
-        containerReturnMarkerPj.innerHTML = markerPj++;
-
+        
+        containerReturnMarkerPj.innerHTML = ++markerPj;
+        
     }else if (eleccionPj == 3 && total == 1 || eleccionPj == 1 && total == 2 || eleccionPj == 2 && total == 3) {
         console.log("Perdiste");
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
-
+        
         containerMarkerChild[1].style.order = '2';
         
         gameWin = true;
         containerPj.style.select = 'none'
-
-        buttonGameAgain.style.visibility = 'visible';
-
         
-        containerReturnMarkerBot.textContent = markerBot++;
-
+        buttonGameAgain.style.visibility = 'visible';
+        
+        
+        containerReturnMarkerBot.innerHTML = ++markerBot;
+        
+        
     }else if(eleccionPj  == total ){
-        console.log('Es un empate')
+        containerMarkerChild[1].style.visibility = 'hidden';
+        containerMarkerChild[3].style.visibility = 'hidden';
     }
-
+    
     if(gameWin){
         
-        buttonGameAgain.style.visibility = 'visible'
+        buttonGameAgain.style.visibility = 'visible';
     }
 
+    historyGame();
+    
 }
 
+// History Game Preview
+const historyGame = () =>{
+    let li = document.createElement("LI");
+    let imgPj = document.createElement("IMG");
+    let span = document.createElement("span")
+    let imgBot = document.createElement("IMG");
+    let fragmentLi = document.createDocumentFragment();
+
+    imgPj.src = containerRespuestaPjChilds[1].src;
+    imgBot.src = containerRespuestaBotChild[1].src;
+
+    li.appendChild(imgPj)
+    li.appendChild(span)
+    li.appendChild(imgBot)
+    console.log(li)
+
+    
+}
+
+historyGame();
 
 
 //--- Boton Jugar
 const botonGame = document.querySelector(".boton-jugar");
 botonGame.addEventListener('click',cargarBot);
-// botonGame.addEventListener('click', jugar());

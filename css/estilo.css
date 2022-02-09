@@ -1,16 +1,18 @@
-.container{
-    position: relative;
-    text-align: center;
+body{
+    background: linear-gradient(rgb(104, 44, 44),rgb(233, 147, 76)) !important;
+    background-color: blue;
     display: flex;
     justify-content: center;
-    background-color: black;
 }
+
 /* Container Pantalla Inicio */
 .container-start{
     position: absolute;
     text-align: center;
     width: 500px;
-    margin-top: 200px;
+    
+    margin: 170px auto;
+    left: 20%;
 }
 .container-start h3{
     text-transform: uppercase;
@@ -109,3 +111,16 @@
     display: inline;
 }
 
+/* history-game */
+.container-history-game{
+    background-color: rgba(92, 92, 92, 0.541);
+}
+.container-history-game li{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+.container-history-game img{
+    width: 30px;
+}
