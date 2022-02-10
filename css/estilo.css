@@ -62,6 +62,9 @@ body{
 }
 .container-buttons{
     grid-column: 1/5;
+    position: absolute;
+    left: 30%;
+    top:80vh;
 }
 
 .container-opcion-bot, .container-opcion-j1{
@@ -70,6 +73,9 @@ body{
     flex-wrap: wrap;
     
 
+}
+.container-opcionpj, .container-opcionbot{
+    width: 176px;
 }
 
 /* Container Return */
@@ -83,6 +89,7 @@ body{
 .container-return button{
     font-size: 2em;
     z-index: 1000;
+    margin: 0 30px;
 
 }
 .container-marker{
@@ -112,15 +119,26 @@ body{
 }
 
 /* history-game */
+.container-history-game-div{
+    overflow-y: scroll;
+
+}
 .container-history-game{
     background-color: rgba(92, 92, 92, 0.541);
+    padding: 2px;
+    height: 500px;
 }
 .container-history-game li{
+
     list-style: none;
     display: flex;
     justify-content: space-around;
     padding: 10px;
+    border: 1px solid black;
+    margin: 2px;
+    font-weight: bolder;
 }
 .container-history-game img{
     width: 30px;
 }
+

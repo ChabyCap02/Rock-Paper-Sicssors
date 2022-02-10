@@ -1,4 +1,9 @@
-let gameWin = false
+let gameWin = false;
+let gameWinPj = false;
+
+// Counts Markers
+let markerPj = 0;
+let markerBot = 0;
 
 //--- Elementos Start Game
 const containerButtons = document.querySelector('.container-buttons').childNodes;
@@ -137,15 +142,16 @@ buttonGameAgain.addEventListener('click',()=>{
     containerRespuestaPjChilds[1].src = "img/interrogacion.png";
     containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
 
-    markerPj = 0;
+    markerPj, markerBot = 0,0;
+    
     containerReturnMarkerPj.innerHTML = markerPj;
     containerReturnMarkerBot.innerHTML = markerPj;
 
+    fragmentLi.textContent = " ";
+    historyGame();
+
 });
 
-// Counts Markers
-let markerPj = 0;
-let markerBot = 0;
 
 const cargarBot = () =>{
     num = Math.random()*(4-1)+1;
@@ -175,6 +181,8 @@ const cargarBot = () =>{
         containerPj.style.select = 'none';
 
         gameWin = true;
+        gameWinPj = true;
+
         containerMarkerChild[1].style.order = '1';
         
         buttonGameAgain.style.visibility = 'visible';
@@ -189,6 +197,7 @@ const cargarBot = () =>{
         containerMarkerChild[1].style.order = '2';
         
         gameWin = true;
+        gameWinPj = false;
         containerPj.style.select = 'none'
         
         buttonGameAgain.style.visibility = 'visible';
@@ -205,6 +214,7 @@ const cargarBot = () =>{
     if(gameWin){
         
         buttonGameAgain.style.visibility = 'visible';
+      
     }
 
     historyGame();
@@ -212,22 +222,52 @@ const cargarBot = () =>{
 }
 
 // History Game Preview
+
+let fragmentLi = document.createDocumentFragment();
+
 const historyGame = () =>{
     let li = document.createElement("LI");
     let imgPj = document.createElement("IMG");
-    let span = document.createElement("span")
+    let span = document.createElement("SPAN");
     let imgBot = document.createElement("IMG");
-    let fragmentLi = document.createDocumentFragment();
 
     imgPj.src = containerRespuestaPjChilds[1].src;
     imgBot.src = containerRespuestaBotChild[1].src;
 
-    li.appendChild(imgPj)
-    li.appendChild(span)
-    li.appendChild(imgBot)
-    console.log(li)
-
+    let spanMarkerPj = document.createElement("SPAN")
+    spanMarkerPj.textContent = markerPj;
     
+    let spanMarkerBot = document.createElement("SPAN");
+    spanMarkerBot.textContent = markerBot;
+
+    li.appendChild(spanMarkerPj);
+    li.appendChild(imgPj);
+    li.appendChild(span);
+    li.appendChild(imgBot);
+    li.appendChild(spanMarkerBot);
+
+
+    if(imgPj.src == "/img/interrogacion.png"){
+        fragmentLi.appendChild('GAy');
+    }else if(gameWin == true && gameWinPj == true){
+        span.textContent = "<--"
+        fragmentLi.appendChild(li);
+
+        gameWinPj = false;
+        gameWin = false;
+    }else if(gameWin == true && gameWinPj == false){
+        span.textContent = "-->"
+        fragmentLi.appendChild(li);
+
+        gameWin = false;
+    }else if(gameWin == false && gameWinPj == false ){
+        span.textContent = "==="
+        fragmentLi.appendChild(li);
+    }
+
+    console.log(fragmentLi);
+
+    document.querySelector(".container-history-game").appendChild(fragmentLi);
 }
 
 historyGame();
