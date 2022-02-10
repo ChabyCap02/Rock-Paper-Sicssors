@@ -3,6 +3,8 @@ body{
     background-color: blue;
     display: flex;
     justify-content: center;
+    overflow-y: hidden;
+    user-select: none;
 }
 
 /* Container Pantalla Inicio */
@@ -124,12 +126,14 @@ body{
 
 }
 .container-history-game{
-    background-color: rgba(92, 92, 92, 0.541);
+    
     padding: 2px;
     height: 500px;
+    word-wrap: break-word;
+    font-weight: bolder;
 }
 .container-history-game li{
-
+    background-color: rgba(0, 0, 0, 0.473);
     list-style: none;
     display: flex;
     justify-content: space-around;
