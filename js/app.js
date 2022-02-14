@@ -28,6 +28,8 @@ let gameModeTwoPlayers = false;
 
 let bot = false;
 
+
+
 const containerBot = document.querySelector('.container-opcion-bot').childNodes
 
 //Opcioness de la pantalla Principal
@@ -35,31 +37,33 @@ const containerBot = document.querySelector('.container-opcion-bot').childNodes
 opcionGamePlayer.addEventListener("click", ()=>{
     containerGame.style.visibility = "visible";
     document.querySelector(".container-start").style.visibility = "hidden";
-    gameModeTwoPlayers = false;
+    bot = true;
     botonRegresar.style.display = 'block';
     gameWin = false
-
+    
     markerBot = 0;
     markerPj = 0;
-
+    
     containerButtons[1].style.display = 'inline';
     containerButtons[3].style.display = 'inline';
-
+    
     
     //Sprites Defaul
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
-    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
-
+    // PJ
     containerRespuestaPjChilds[1].src = "img/interrogacion.png";
     containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
+    // Bot
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+    
     // Desactive Mode Two Players
     if(gameModeTwoPlayers == false){
-        containerBot[1].classList.add('diseableM');
-        containerBot[3].classList.add('diseableM');
-        containerBot[5].classList.add('diseableM');
+        
         bot = true;
         document.querySelector('.container-opcion-bot').style.display = 'none';
         
+    }else{
+        gameModeTwoPlayers = false;
     };
     historyGame();
    
@@ -67,6 +71,7 @@ opcionGamePlayer.addEventListener("click", ()=>{
 
 //Funcion para habilitar el Pj2
 opcionGameTwoPlayers.addEventListener('click', ()=>{
+    document.body.style.overflowY = "scroll";
     containerGame.style.visibility = "visible";
     document.querySelector(".container-start").style.visibility = "hidden";
     gameModeTwoPlayers = true;
@@ -82,31 +87,19 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
         bot = false;
 
         document.querySelector('.container-opcion-bot').style.display = 'block';
-    }
+        
+        
+        containerRespuestaPjChilds[1].src = 'img/interrogacion.png';
+        containerRespuestaPjChilds[3].textContent = '?';
+        containerRespuestaBotChild[1].src = "img/interrogacion.png";
+        containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+    };
     botonRegresar.style.display = 'block';
 });
 
 
-//Boton Regresar
 
-botonRegresar.childNodes[3].addEventListener('click', ()=>{
-    containerGame.style.visibility = 'hidden';
-    botonRegresar.style.display = 'none';
-    document.querySelector(".container-start").style.visibility = "visible";
-
-    containerMarkerChild[1].style.visibility = 'hidden';
-    containerMarkerChild[3].style.visibility = 'hidden';
-    containerButtons[1].style.display = 'none';
-    containerButtons[3].style.display = 'none';
-
-    numberRounds = 0;
-    
-    containerReturnMarkerPj.innerHTML = 0;
-    containerReturnMarkerBot.innerHTML = 0;
-    document.querySelector('.container-history-game').innerHTML = ` - - - ${++numberRounds} - - - `;
-})
-
-//--- Elementos PJ
+//--- Eleccion Modo de juego - PJ vs Bot
 const containerPj = document.querySelector(".container-opcion-j1");
 const containerRespuestaPj = document.querySelector(".opcion-pj");
 const containerRespuestaPjChilds = containerRespuestaPj.childNodes;
@@ -119,22 +112,59 @@ const opcionPj3 = opcionsPj[5];
 let eleccionPj = 0;
  //Opciones DeL juego
 opcionPj1.addEventListener('click',()=>{
-    containerRespuestaPjChilds[1].src = "img/rock.png";
-    containerRespuestaPjChilds[3].childNodes[1].textContent = "ROCK";
+    if(gameModeTwoPlayers == false){
+        containerRespuestaPjChilds[1].src = "img/rock.png";
+        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "ROCK";
+        
+    }else{
+        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "-  -  -";
+    }
     eleccionPj = 1;
+    
 });
 opcionPj2.addEventListener('click',()=>{
-    containerRespuestaPjChilds[1].src = "img/paper.png";
-    containerRespuestaPjChilds[3].childNodes[1].textContent = "PAPER";
+    if(gameModeTwoPlayers == false){
+        containerRespuestaPjChilds[1].src = "img/paper.png";
+        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "PAPER";
+        
+    }else{
+        
+        containerRespuestaPjChilds[3].childNodes[1].textContent = "-  -  -";
+    }
     eleccionPj = 2;
+    
     
 });
 opcionPj3.addEventListener('click',()=>{
-    containerRespuestaPjChilds[1].src = "img/scissors.png";
-    containerRespuestaPjChilds[3].childNodes[1].textContent = "SCISSORS";
+    if(gameModeTwoPlayers == false){
+        containerRespuestaPjChilds[1].src = "img/scissors.png";
+        containerRespuestaPjChilds[3].childNodes[1].textContent = "SCISSORS";
+    }else{
+        containerRespuestaPjChilds[3].childNodes[1].textContent = "-  -  -";
+    }
     eleccionPj = 3;
+    
 
 });
+//--- Eleccion Modo de juego - PJ1 vs PJ2
+const containerRespuestaPj2Childs = document.querySelector('.opcion-bot').childNodes;
+const opcionsPj21 = containerBot[1];
+const opcionsPj22 = containerBot[3];
+const opcionsPj23 = containerBot[5];
+
+opcionsPj21.addEventListener('click', ()=>{
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
+})
+opcionsPj22.addEventListener('click', ()=>{
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
+})
+opcionsPj23.addEventListener('click', ()=>{
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
+})
+
 
 
 
@@ -145,40 +175,15 @@ const containerMarkerChild = containerMarker.childNodes;
 const containerRespuestaBot = document.querySelector(".opcion-bot");
 const containerRespuestaBotChild = containerRespuestaBot.childNodes;
 
-//Funcion Game Again
-const buttonGameAgain = document.querySelector('.boton-game-again');
-buttonGameAgain.addEventListener('click',()=>{
-    gameWin = false;
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
-    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
-
-    containerMarkerChild[1].style.visibility = 'hidden';
-    containerMarkerChild[3].style.visibility = 'hidden';
-
-    
-
-    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
-    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
-
-    //Marker Game
-    markerPj = 0;
-    markerBot = 0;
-    eleccionPj = 0;
-    
-    containerReturnMarkerPj.innerHTML = markerPj;
-    containerReturnMarkerBot.innerHTML = markerPj;
-
-    fragmentLi.textContent = " ";
-    historyGame();
-
-});
 
 
-const cargarBot = () =>{
+
+const resultWin = () =>{
     //Cerbro del "Bot"
-    num = Math.random()*(4-1)+1;
-    total = Math.floor(num);
-    console.log(total);
+    if(bot){
+        num = Math.random()*(4-1)+1;
+        total = Math.floor(num);
+    }
     
     //Cambia las imagenes de las Respuestas de la pantalla de juego
     if(eleccionPj == 0){
@@ -197,7 +202,6 @@ const cargarBot = () =>{
     
     //Cuando Gana el jugador 1
     if (eleccionPj == 1 && total == 3 || eleccionPj == 2 && total == 1 || eleccionPj == 3 && total == 2) {
-        console.log("Ganaste");
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
         containerPj.style.select = 'none';
@@ -214,7 +218,7 @@ const cargarBot = () =>{
     }
     //Cuando Gana el jugador 2 o Bot
     else if (eleccionPj == 3 && total == 1 || eleccionPj == 1 && total == 2 || eleccionPj == 2 && total == 3) {
-        console.log("Perdiste");
+        
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
         
@@ -299,15 +303,66 @@ const historyGame = () =>{
 
     }
 
-    console.log(fragmentLi);
+    
 
     containerHistoryGame.appendChild(fragmentLi);
-    console.log(containerHistoryGame.scrollTop) 
+    
 
 }
 
+//Boton Regresar
 
+botonRegresar.childNodes[3].addEventListener('click', ()=>{
+    gameModeTwoPlayers = false;
+    containerGame.style.visibility = 'hidden';
+    botonRegresar.style.display = 'none';
+    document.querySelector(".container-start").style.visibility = "visible";
+
+    containerMarkerChild[1].style.visibility = 'hidden';
+    containerMarkerChild[3].style.visibility = 'hidden';
+    containerButtons[1].style.display = 'none';
+    containerButtons[3].style.display = 'none';
+
+    numberRounds = 0;
+    
+    containerReturnMarkerPj.innerHTML = 0;
+    containerReturnMarkerBot.innerHTML = 0;
+    document.querySelector('.container-history-game').innerHTML = ` - - - ${++numberRounds} - - - `;
+})
+
+
+//Funcion Game Again
+const buttonGameAgain = document.querySelector('.boton-game-again');
+buttonGameAgain.addEventListener('click',()=>{
+    gameWin = false;
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+
+    containerMarkerChild[1].style.visibility = 'hidden';
+    containerMarkerChild[3].style.visibility = 'hidden';
+
+    
+
+    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
+    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
+
+    //Marker Game
+    markerPj = 0;
+    markerBot = 0;
+    eleccionPj = 0;
+    
+    containerReturnMarkerPj.innerHTML = markerPj;
+    containerReturnMarkerBot.innerHTML = markerPj;
+
+    fragmentLi.textContent = " ";
+    historyGame();
+
+    
+
+
+});
 
 
 //--- Evento Funcion Del boton Jugar
-botonGame.addEventListener('click',cargarBot);
+
+botonGame.addEventListener('click', resultWin)
