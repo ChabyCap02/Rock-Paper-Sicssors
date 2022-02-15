@@ -80,10 +80,13 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
     containerButtons[1].style.display = 'inline';
     containerButtons[3].style.display = 'inline';
 
+    
+
     if(gameModeTwoPlayers){
         containerBot[1].classList.remove('diseableM');
         containerBot[3].classList.remove('diseableM');
         containerBot[5].classList.remove('diseableM');
+
         bot = false;
 
         document.querySelector('.container-opcion-bot').style.display = 'block';
@@ -109,29 +112,34 @@ const opcionPj1 = opcionsPj[1];
 const opcionPj2 = opcionsPj[3];
 const opcionPj3 = opcionsPj[5];
 
-let eleccionPj = 0;
+console.log(containerRespuestaPjChilds[3].childNodes[1])
+let respuestaPj1 = 0;
  //Opciones DeL juego
 opcionPj1.addEventListener('click',()=>{
     if(gameModeTwoPlayers == false){
         containerRespuestaPjChilds[1].src = "img/rock.png";
         containerRespuestaPjChilds[3].childNodes[1].innerHTML = "ROCK";
         
-    }else{
+    }else if(gameModeTwoPlayers == true){
+        containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
         containerRespuestaPjChilds[3].childNodes[1].innerHTML = "-  -  -";
+    }else{
+        console.log(gameModeTwoPlayers)
     }
-    eleccionPj = 1;
+    respuestaPj1 = 1;
     
 });
+
 opcionPj2.addEventListener('click',()=>{
     if(gameModeTwoPlayers == false){
         containerRespuestaPjChilds[1].src = "img/paper.png";
         containerRespuestaPjChilds[3].childNodes[1].innerHTML = "PAPER";
         
-    }else{
-        
-        containerRespuestaPjChilds[3].childNodes[1].textContent = "-  -  -";
+    }else if(gameModeTwoPlayers == true){
+        containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
+        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "-  -  -";
     }
-    eleccionPj = 2;
+    respuestaPj1 = 2;
     
     
 });
@@ -140,9 +148,10 @@ opcionPj3.addEventListener('click',()=>{
         containerRespuestaPjChilds[1].src = "img/scissors.png";
         containerRespuestaPjChilds[3].childNodes[1].textContent = "SCISSORS";
     }else{
+        containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
         containerRespuestaPjChilds[3].childNodes[1].textContent = "-  -  -";
     }
-    eleccionPj = 3;
+    respuestaPj1 = 3;
     
 
 });
@@ -151,18 +160,28 @@ const containerRespuestaPj2Childs = document.querySelector('.opcion-bot').childN
 const opcionsPj21 = containerBot[1];
 const opcionsPj22 = containerBot[3];
 const opcionsPj23 = containerBot[5];
+let respuestaPj2 = 0;
 
 opcionsPj21.addEventListener('click', ()=>{
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[1].src = "img/respuestaPj.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
+
+    respuestaPj2 = 1;
+    console.log( respuestaPj2 );
 })
 opcionsPj22.addEventListener('click', ()=>{
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[1].src = "img/respuestaPj.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
+
+    respuestaPj2 = 2;
+    console.log( respuestaPj2 );
 })
 opcionsPj23.addEventListener('click', ()=>{
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[1].src = "img/respuestaPj.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
+
+    respuestaPj2 = 3;
+    console.log( respuestaPj2 );
 })
 
 
@@ -186,7 +205,7 @@ const resultWin = () =>{
     }
     
     //Cambia las imagenes de las Respuestas de la pantalla de juego
-    if(eleccionPj == 0){
+    if(respuestaPj1 == 0){
         containerRespuestaBotChild[1].src = "img/interrogacion.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "?";
     }else if(total == 1){
@@ -201,7 +220,7 @@ const resultWin = () =>{
     }
     
     //Cuando Gana el jugador 1
-    if (eleccionPj == 1 && total == 3 || eleccionPj == 2 && total == 1 || eleccionPj == 3 && total == 2) {
+    if (respuestaPj1 == 1 && total == 3 || respuestaPj1 == 2 && total == 1 || respuestaPj1 == 3 && total == 2) {
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
         containerPj.style.select = 'none';
@@ -217,7 +236,7 @@ const resultWin = () =>{
         
     }
     //Cuando Gana el jugador 2 o Bot
-    else if (eleccionPj == 3 && total == 1 || eleccionPj == 1 && total == 2 || eleccionPj == 2 && total == 3) {
+    else if (respuestaPj1 == 3 && total == 1 || respuestaPj1 == 1 && total == 2 || respuestaPj1 == 2 && total == 3) {
         
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
@@ -235,7 +254,7 @@ const resultWin = () =>{
         
     }
     //Cuando los jugadores quedan en un empate
-    else if(eleccionPj  == total ){
+    else if(respuestaPj1  == total ){
         containerMarkerChild[1].style.visibility = 'hidden';
         containerMarkerChild[3].style.visibility = 'hidden';
     }
@@ -278,12 +297,12 @@ const historyGame = () =>{
     li.appendChild(spanMarkerBot);
     
     
-    if(eleccionPj == 0 && numberRounds >= 0 && roundNew == true){
+    if(respuestaPj1 == 0 && numberRounds >= 0 && roundNew == true){
         span.textContent = ` - - - ${++numberRounds} - - - `
         fragmentLi.appendChild(span);
 
         roundNew = false;
-        eleccionPj = 0;
+        respuestaPj1 = 0;
     }else if(gameWin == true && gameWinPj == true){
         span.textContent = "<--"
         fragmentLi.appendChild(li);
@@ -297,7 +316,7 @@ const historyGame = () =>{
 
         gameWin = false;
         roundNew = true;
-    }else if(gameWin == false && gameWinPj == false && eleccionPj != 0){
+    }else if(gameWin == false && gameWinPj == false && respuestaPj1 != 0){
         span.textContent = "=="
         fragmentLi.appendChild(li);
 
@@ -349,7 +368,7 @@ buttonGameAgain.addEventListener('click',()=>{
     //Marker Game
     markerPj = 0;
     markerBot = 0;
-    eleccionPj = 0;
+    respuestaPj1 = 0;
     
     containerReturnMarkerPj.innerHTML = markerPj;
     containerReturnMarkerBot.innerHTML = markerPj;
@@ -366,3 +385,10 @@ buttonGameAgain.addEventListener('click',()=>{
 //--- Evento Funcion Del boton Jugar
 
 botonGame.addEventListener('click', resultWin)
+
+
+
+//teo820 Office
+
+//1000031570 afterEfeccts
+//diegodeisy15 afterEfeccts
