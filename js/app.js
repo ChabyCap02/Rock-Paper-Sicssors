@@ -32,6 +32,12 @@ let bot = false;
 
 const containerBot = document.querySelector('.container-opcion-bot').childNodes
 
+//Body
+const body = document
+body.addEventListener('DOMContentLoaded', ()=>{
+    window.scrollTo(0,0)
+});
+
 //Opcioness de la pantalla Principal
 //Opcion Jugador Pj
 opcionGamePlayer.addEventListener("click", ()=>{
@@ -55,6 +61,10 @@ opcionGamePlayer.addEventListener("click", ()=>{
     // Bot
     containerRespuestaBotChild[1].src = "img/interrogacion.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+
+    botonGame.removeEventListener('click', resultWinPlayers);
+    botonGame.addEventListener('click', resultWinBot);
+
     
     // Desactive Mode Two Players
     if(gameModeTwoPlayers == false){
@@ -80,7 +90,8 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
     containerButtons[1].style.display = 'inline';
     containerButtons[3].style.display = 'inline';
 
-    
+    botonGame.removeEventListener('click', resultWinBot)
+    botonGame.addEventListener('click', resultWinPlayers);
 
     if(gameModeTwoPlayers){
         containerBot[1].classList.remove('diseableM');
@@ -98,6 +109,7 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
         containerRespuestaBotChild[3].childNodes[1].textContent = "?";
     };
     botonRegresar.style.display = 'block';
+    historyGame();
 });
 
 
@@ -122,9 +134,7 @@ opcionPj1.addEventListener('click',()=>{
         
     }else if(gameModeTwoPlayers == true){
         containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
-        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "-  -  -";
-    }else{
-        console.log(gameModeTwoPlayers)
+        
     }
     respuestaPj1 = 1;
     
@@ -137,7 +147,7 @@ opcionPj2.addEventListener('click',()=>{
         
     }else if(gameModeTwoPlayers == true){
         containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
-        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "-  -  -";
+        
     }
     respuestaPj1 = 2;
     
@@ -149,7 +159,6 @@ opcionPj3.addEventListener('click',()=>{
         containerRespuestaPjChilds[3].childNodes[1].textContent = "SCISSORS";
     }else{
         containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
-        containerRespuestaPjChilds[3].childNodes[1].textContent = "-  -  -";
     }
     respuestaPj1 = 3;
     
@@ -194,17 +203,58 @@ const containerMarkerChild = containerMarker.childNodes;
 const containerRespuestaBot = document.querySelector(".opcion-bot");
 const containerRespuestaBotChild = containerRespuestaBot.childNodes;
 
+// Comprobar resultado de Pj vs Pj2
+const resultWinPlayers = () =>{
+    //Jugador 1 Gana
+    if (respuestaPj1 == 1 && respuestaPj2 == 3 || respuestaPj1 == 2 && respuestaPj2 == 1 || respuestaPj1 == 3 && respuestaPj2 == 2) {
+        containerMarkerChild[1].style.visibility = 'visible';
+        containerMarkerChild[3].style.visibility = 'visible';
+        containerPj.style.select = 'none';
 
+        gameWin = true;
+        gameWinPj = true;
 
+        containerMarkerChild[1].style.order = '1';
+        
+        buttonGameAgain.style.visibility = 'visible';
+        
+        containerReturnMarkerPj.innerHTML = ++markerPj;
+        
+    }
+    //Jugador 2 Gana
+    else if (respuestaPj1 == 3 && respuestaPj2 == 1 || respuestaPj1 == 1 && respuestaPj2 == 2 || respuestaPj1 == 2 && respuestaPj2 == 3) {
+        containerMarkerChild[1].style.visibility = 'visible';
+        containerMarkerChild[3].style.visibility = 'visible';
+        
+        containerMarkerChild[1].style.order = '2';
+        
+        gameWin = true;
+        gameWinPj = false;
+        containerPj.style.select = 'none';
+        
+        buttonGameAgain.style.visibility = 'visible';
+        
+        containerReturnMarkerBot.innerHTML = ++markerBot;
+        
+    }
+    //Cuando los jugadores quedan en un empate
+    else if(respuestaPj1  == respuestaPj2 ){
+        containerMarkerChild[1].style.visibility = 'hidden';
+        containerMarkerChild[3].style.visibility = 'hidden';
+    }
+    historyGame();
 
-const resultWin = () =>{
+}
+
+// Comprobar resultado de Pj vs Bot
+const resultWinBot = () =>{
     //Cerbro del "Bot"
     if(bot){
         num = Math.random()*(4-1)+1;
         total = Math.floor(num);
     }
     
-    //Cambia las imagenes de las Respuestas de la pantalla de juego
+    //Cambia las imagenes de las Respuestas del bot de la pantalla de juego
     if(respuestaPj1 == 0){
         containerRespuestaBotChild[1].src = "img/interrogacion.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "?";
@@ -235,7 +285,7 @@ const resultWin = () =>{
         containerReturnMarkerPj.innerHTML = ++markerPj;
         
     }
-    //Cuando Gana el jugador 2 o Bot
+    //Cuando Gana el Bot
     else if (respuestaPj1 == 3 && total == 1 || respuestaPj1 == 1 && total == 2 || respuestaPj1 == 2 && total == 3) {
         
         containerMarkerChild[1].style.visibility = 'visible';
@@ -354,16 +404,16 @@ botonRegresar.childNodes[3].addEventListener('click', ()=>{
 const buttonGameAgain = document.querySelector('.boton-game-again');
 buttonGameAgain.addEventListener('click',()=>{
     gameWin = false;
+    
+    containerMarkerChild[1].style.visibility = 'hidden';
+    containerMarkerChild[3].style.visibility = 'hidden';
+    
+    //Sprites Defaul 
     containerRespuestaBotChild[1].src = "img/interrogacion.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "?";
 
-    containerMarkerChild[1].style.visibility = 'hidden';
-    containerMarkerChild[3].style.visibility = 'hidden';
-
-    
-
     containerRespuestaPjChilds[1].src = "img/interrogacion.png";
-    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
+    
 
     //Marker Game
     markerPj = 0;
@@ -384,7 +434,6 @@ buttonGameAgain.addEventListener('click',()=>{
 
 //--- Evento Funcion Del boton Jugar
 
-botonGame.addEventListener('click', resultWin)
 
 
 
