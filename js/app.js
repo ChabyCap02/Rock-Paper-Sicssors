@@ -53,14 +53,6 @@ opcionGamePlayer.addEventListener("click", ()=>{
     containerButtons[1].style.display = 'inline';
     containerButtons[3].style.display = 'inline';
     
-    
-    //Sprites Defaul
-    // PJ
-    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
-    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
-    // Bot
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
-    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
 
     botonGame.removeEventListener('click', resultWinPlayers);
     botonGame.addEventListener('click', resultWinBot);
@@ -75,6 +67,7 @@ opcionGamePlayer.addEventListener("click", ()=>{
     }else{
         gameModeTwoPlayers = false;
     };
+    cleanGame();
     historyGame();
    
 });
@@ -85,6 +78,7 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
     containerGame.style.visibility = "visible";
     document.querySelector(".container-start").style.visibility = "hidden";
     gameModeTwoPlayers = true;
+    gameWin = true;
 
     //ContainerButtons 
     containerButtons[1].style.display = 'inline';
@@ -103,12 +97,12 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
         document.querySelector('.container-opcion-bot').style.display = 'block';
         
         
-        containerRespuestaPjChilds[1].src = 'img/interrogacion.png';
-        containerRespuestaPjChilds[3].textContent = '?';
-        containerRespuestaBotChild[1].src = "img/interrogacion.png";
-        containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+        cleanGame();
+        
     };
     botonRegresar.style.display = 'block';
+   
+    
     historyGame();
 });
 
@@ -124,14 +118,13 @@ const opcionPj1 = opcionsPj[1];
 const opcionPj2 = opcionsPj[3];
 const opcionPj3 = opcionsPj[5];
 
-console.log(containerRespuestaPjChilds[3].childNodes[1])
+
 let respuestaPj1 = 0;
  //Opciones DeL juego
 opcionPj1.addEventListener('click',()=>{
     if(gameModeTwoPlayers == false){
         containerRespuestaPjChilds[1].src = "img/rock.png";
-        containerRespuestaPjChilds[3].childNodes[1].innerHTML = "ROCK";
-        
+        containerRespuestaPjChilds[3].childNodes[1].textContent = "ROCK";
     }else if(gameModeTwoPlayers == true){
         containerRespuestaPjChilds[1].src = "img/respuestaPj.png";
         
@@ -176,21 +169,21 @@ opcionsPj21.addEventListener('click', ()=>{
     containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
 
     respuestaPj2 = 1;
-    console.log( respuestaPj2 );
+    
 })
 opcionsPj22.addEventListener('click', ()=>{
     containerRespuestaBotChild[1].src = "img/respuestaPj.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
 
     respuestaPj2 = 2;
-    console.log( respuestaPj2 );
+    
 })
 opcionsPj23.addEventListener('click', ()=>{
     containerRespuestaBotChild[1].src = "img/respuestaPj.png";
     containerRespuestaBotChild[3].childNodes[1].textContent = "-  -  -";
 
     respuestaPj2 = 3;
-    console.log( respuestaPj2 );
+    
 })
 
 
@@ -319,6 +312,19 @@ const resultWinBot = () =>{
     
 }
 
+//Cleaner Game
+const cleanGame = () =>{
+    //Sprites Defaul 
+    containerRespuestaBotChild[1].src = "img/interrogacion.png";
+    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
+
+    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
+    containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
+
+    markerPj = 0;
+    markerBot = 0;
+}
+
 // History Game Preview - mostrar un marcador con el historial de las partidas y rondas jugadas
 let roundNew = true;
 
@@ -326,6 +332,7 @@ const containerHistoryGame = document.querySelector(".container-history-game")
 let fragmentLi = document.createDocumentFragment();
 
 const historyGame = () =>{
+    
     let li = document.createElement("LI");
     let imgPj = document.createElement("IMG");
     let span = document.createElement("SPAN");
@@ -353,20 +360,20 @@ const historyGame = () =>{
 
         roundNew = false;
         respuestaPj1 = 0;
-    }else if(gameWin == true && gameWinPj == true){
+    }else if(gameWin == true && gameWinPj == true && containerRespuestaPjChilds[1].src != "img/interrogacion.png"){
         span.textContent = "<--"
         fragmentLi.appendChild(li);
 
         gameWinPj = false;
         gameWin = false;
         roundNew = true;
-    }else if(gameWin == true && gameWinPj == false){
+    }else if(gameWin == true && gameWinPj == false && containerRespuestaPjChilds[1].src != "img/interrogacion.png"){
         span.textContent = "-->"
         fragmentLi.appendChild(li);
 
         gameWin = false;
         roundNew = true;
-    }else if(gameWin == false && gameWinPj == false && respuestaPj1 != 0){
+    }else if(gameWin == false && gameWinPj == false && respuestaPj1 != 0 && containerRespuestaPjChilds[1].src != "img/interrogacion.png"){
         span.textContent = "=="
         fragmentLi.appendChild(li);
 
@@ -397,6 +404,8 @@ botonRegresar.childNodes[3].addEventListener('click', ()=>{
     containerReturnMarkerPj.innerHTML = 0;
     containerReturnMarkerBot.innerHTML = 0;
     document.querySelector('.container-history-game').innerHTML = ` - - - ${++numberRounds} - - - `;
+    cleanGame();
+
 })
 
 
@@ -407,23 +416,14 @@ buttonGameAgain.addEventListener('click',()=>{
     
     containerMarkerChild[1].style.visibility = 'hidden';
     containerMarkerChild[3].style.visibility = 'hidden';
-    
-    //Sprites Defaul 
-    containerRespuestaBotChild[1].src = "img/interrogacion.png";
-    containerRespuestaBotChild[3].childNodes[1].textContent = "?";
 
-    containerRespuestaPjChilds[1].src = "img/interrogacion.png";
-    
-
-    //Marker Game
-    markerPj = 0;
-    markerBot = 0;
     respuestaPj1 = 0;
     
     containerReturnMarkerPj.innerHTML = markerPj;
     containerReturnMarkerBot.innerHTML = markerPj;
 
-    fragmentLi.textContent = " ";
+    containerHistoryGame.textContent = " ";
+    cleanGame();
     historyGame();
 
     
