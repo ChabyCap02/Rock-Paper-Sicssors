@@ -68,6 +68,8 @@ opcionGamePlayer.addEventListener("click", ()=>{
         gameModeTwoPlayers = false;
     };
     cleanGame();
+    
+
     historyGame();
    
 });
@@ -98,6 +100,8 @@ opcionGameTwoPlayers.addEventListener('click', ()=>{
         
         
         cleanGame();
+        roundNew = true;
+        
         
     };
     botonRegresar.style.display = 'block';
@@ -199,7 +203,9 @@ const containerRespuestaBotChild = containerRespuestaBot.childNodes;
 // Comprobar resultado de Pj vs Pj2
 const resultWinPlayers = () =>{
     //Jugador 1 Gana
-    if (respuestaPj1 == 1 && respuestaPj2 == 3 || respuestaPj1 == 2 && respuestaPj2 == 1 || respuestaPj1 == 3 && respuestaPj2 == 2) {
+    if(respuestaPj1 == 0 || respuestaPj2 == 0){
+        alert('Tienen que elegir una de las 3 opciones')
+    }else if (respuestaPj1 == 1 && respuestaPj2 == 3 || respuestaPj1 == 2 && respuestaPj2 == 1 || respuestaPj1 == 3 && respuestaPj2 == 2) {
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
         containerPj.style.select = 'none';
@@ -235,6 +241,7 @@ const resultWinPlayers = () =>{
         containerMarkerChild[1].style.visibility = 'hidden';
         containerMarkerChild[3].style.visibility = 'hidden';
     }
+    
     historyGame();
 
 }
@@ -244,26 +251,31 @@ const resultWinBot = () =>{
     //Cerbro del "Bot"
     if(bot){
         num = Math.random()*(4-1)+1;
-        total = Math.floor(num);
+        respuestaPj2 = Math.floor(num);
     }
     
     //Cambia las imagenes de las Respuestas del bot de la pantalla de juego
     if(respuestaPj1 == 0){
         containerRespuestaBotChild[1].src = "img/interrogacion.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "?";
-    }else if(total == 1){
+    }else if(respuestaPj2 == 1){
         containerRespuestaBotChild[1].src = "img/rock.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "ROCK";
-    }else if(total == 2){
+        
+    }else if(respuestaPj2 == 2){
         containerRespuestaBotChild[1].src = "img/paper.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "PAPER";
-    }else if(total == 3){
+        
+
+    }else if(respuestaPj2 == 3){
         containerRespuestaBotChild[1].src = "img/scissors.png";
         containerRespuestaBotChild[3].childNodes[1].textContent = "SCISSORS";
+        
+
     }
     
     //Cuando Gana el jugador 1
-    if (respuestaPj1 == 1 && total == 3 || respuestaPj1 == 2 && total == 1 || respuestaPj1 == 3 && total == 2) {
+    if (respuestaPj1 == 1 && respuestaPj2 == 3 || respuestaPj1 == 2 && respuestaPj2 == 1 || respuestaPj1 == 3 && respuestaPj2 == 2) {
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
         containerPj.style.select = 'none';
@@ -279,7 +291,7 @@ const resultWinBot = () =>{
         
     }
     //Cuando Gana el Bot
-    else if (respuestaPj1 == 3 && total == 1 || respuestaPj1 == 1 && total == 2 || respuestaPj1 == 2 && total == 3) {
+    else if (respuestaPj1 == 3 && respuestaPj2 == 1 || respuestaPj1 == 1 && respuestaPj2 == 2 || respuestaPj1 == 2 && respuestaPj2 == 3) {
         
         containerMarkerChild[1].style.visibility = 'visible';
         containerMarkerChild[3].style.visibility = 'visible';
@@ -297,7 +309,7 @@ const resultWinBot = () =>{
         
     }
     //Cuando los jugadores quedan en un empate
-    else if(respuestaPj1  == total ){
+    else if(respuestaPj1  == respuestaPj2 ){
         containerMarkerChild[1].style.visibility = 'hidden';
         containerMarkerChild[3].style.visibility = 'hidden';
     }
@@ -321,25 +333,55 @@ const cleanGame = () =>{
     containerRespuestaPjChilds[1].src = "img/interrogacion.png";
     containerRespuestaPjChilds[3].childNodes[1].textContent = "?";
 
+    
+    roundNew = true;
     markerPj = 0;
     markerBot = 0;
+    respuestaPj1 = 0;
+    respuestaPj2 = 0;
 }
 
 // History Game Preview - mostrar un marcador con el historial de las partidas y rondas jugadas
-let roundNew = true;
+let roundNew = false;
 
 const containerHistoryGame = document.querySelector(".container-history-game")
 let fragmentLi = document.createDocumentFragment();
 
-const historyGame = () =>{
-    
-    let li = document.createElement("LI");
-    let imgPj = document.createElement("IMG");
-    let span = document.createElement("SPAN");
-    let imgBot = document.createElement("IMG");
 
-    imgPj.src = containerRespuestaPjChilds[1].src;
-    imgBot.src = containerRespuestaBotChild[1].src;
+
+
+const historyGame = () =>{
+    let imgBot = document.createElement("IMG");
+    let imgPj = document.createElement("IMG");
+    switch(respuestaPj1){
+        case 1:
+            imgPj.src = "img/rock.png";
+            break;
+        case 2:
+            
+            imgPj.src = "img/paper.png";
+            break;
+        case 3: 
+            
+            imgPj.src = "img/scissors.png";
+            break;
+    };
+    switch(respuestaPj2){
+        case 1:
+            imgBot.src = "img/rock.png";
+            break;
+        case 2:
+            imgBot.src = "img/paper.png";
+            break;
+        case 3: 
+            imgBot.src = "img/scissors.png";
+            break;
+    };
+
+    let li = document.createElement("LI");
+    let span = document.createElement("SPAN");
+    
+    
 
     let spanMarkerPj = document.createElement("SPAN")
     spanMarkerPj.textContent = markerPj;
@@ -353,26 +395,27 @@ const historyGame = () =>{
     li.appendChild(imgBot);
     li.appendChild(spanMarkerBot);
     
-    
-    if(respuestaPj1 == 0 && numberRounds >= 0 && roundNew == true){
+    if( roundNew == true && respuestaPj1 == 0){
         span.textContent = ` - - - ${++numberRounds} - - - `
         fragmentLi.appendChild(span);
 
         roundNew = false;
-        respuestaPj1 = 0;
+        
+    }else if(respuestaPj1 == 0 && roundNew == true || respuestaPj2 == 0 && roundNew == true){
+        alert('Tienen que elegir una de las 3 opciones')
     }else if(gameWin == true && gameWinPj == true && containerRespuestaPjChilds[1].src != "img/interrogacion.png"){
         span.textContent = "<--"
         fragmentLi.appendChild(li);
 
         gameWinPj = false;
         gameWin = false;
-        roundNew = true;
+        
     }else if(gameWin == true && gameWinPj == false && containerRespuestaPjChilds[1].src != "img/interrogacion.png"){
         span.textContent = "-->"
         fragmentLi.appendChild(li);
 
         gameWin = false;
-        roundNew = true;
+        
     }else if(gameWin == false && gameWinPj == false && respuestaPj1 != 0 && containerRespuestaPjChilds[1].src != "img/interrogacion.png"){
         span.textContent = "=="
         fragmentLi.appendChild(li);
@@ -401,6 +444,7 @@ botonRegresar.childNodes[3].addEventListener('click', ()=>{
 
     numberRounds = 0;
     
+    
     containerReturnMarkerPj.innerHTML = 0;
     containerReturnMarkerBot.innerHTML = 0;
     document.querySelector('.container-history-game').innerHTML = ` - - - ${++numberRounds} - - - `;
@@ -412,32 +456,22 @@ botonRegresar.childNodes[3].addEventListener('click', ()=>{
 //Funcion Game Again
 const buttonGameAgain = document.querySelector('.boton-game-again');
 buttonGameAgain.addEventListener('click',()=>{
+
     gameWin = false;
     
     containerMarkerChild[1].style.visibility = 'hidden';
     containerMarkerChild[3].style.visibility = 'hidden';
 
-    respuestaPj1 = 0;
     
-    containerReturnMarkerPj.innerHTML = markerPj;
-    containerReturnMarkerBot.innerHTML = markerPj;
-
-    containerHistoryGame.textContent = " ";
+    
     cleanGame();
-    historyGame();
+    containerReturnMarkerPj.innerHTML = markerPj;
+    containerReturnMarkerBot.innerHTML = markerBot;
 
     
-
-
+    if(respuestaPj1 == 0 && respuestaPj2 == 0){
+        roundNew = true;   
+    }
+    historyGame();
 });
 
-
-//--- Evento Funcion Del boton Jugar
-
-
-
-
-//teo820 Office
-
-//1000031570 afterEfeccts
-//diegodeisy15 afterEfeccts
